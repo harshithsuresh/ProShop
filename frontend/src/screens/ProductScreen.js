@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { FaRupeeSign } from 'react-icons/fa';
@@ -7,17 +7,18 @@ import { listProductsDetails } from '../actions/productActions';
 import Skeleton from 'react-loading-skeleton';
 import ErrorText from '../components/ErrorText';
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ match, history }) => {
+  const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { error, loading, product } = productDetails;
 
   useEffect(() => {
     dispatch(listProductsDetails(match.params.id));
-  }, [dispatch, match.params.id]);
+  }, [dispatch, match]);
 
   const addCartHandler = () => {
-    console.log('Add Cart');
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
   };
 
   return (
@@ -25,7 +26,7 @@ const ProductScreen = ({ match }) => {
       {loading ? (
         <Skeleton />
       ) : error ? (
-        <ErrorText text={error} />
+        <ErrorText text={error} color="danger" />
       ) : (
         <div className="text-primary">
           <div className="bg-onSurface p-3 my-3 text-primary w-24 text-center rounded hover:bg-secondary">
@@ -57,7 +58,11 @@ const ProductScreen = ({ match }) => {
               </div>
             </div>
             {/* Add to cart  */}
-            <div className="shadow-2xl p-3 h-44 text-xl">
+            <div
+              className={`shadow-2xl p-3 ${
+                product.countInStock > 0 ? 'h-56' : 'h-48'
+              } text-xl`}
+            >
               <div className="flex">
                 <div className="w-1/2 p-2">Price : </div>
                 <div className="w-1/2 p-2">{product.price}</div>
@@ -68,7 +73,28 @@ const ProductScreen = ({ match }) => {
                   {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
                 </div>
               </div>
-              <div className="bg-onSurface p-3 my-3 text-primary w-full text-center rounded hover:bg-secondary">
+              {product.countInStock > 0 ? (
+                <div className="flex">
+                  <div className="w-1/2 p-2">Qty : </div>
+                  <div className="w-1/2 p-2">
+                    <select
+                      className="w-16"
+                      onChange={(e) => setQty(e.target.value)}
+                    >
+                      {[...Array(product.countInStock).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              ) : null}
+              <div
+                className={`bg-onSurface p-3 my-3 text-primary w-full text-center rounded ${
+                  product.countInStock > 0 ? 'hover:bg-secondary' : ''
+                } `}
+              >
                 <button
                   disabled={product.countInStock === 0}
                   onClick={addCartHandler}

@@ -21,7 +21,7 @@ const HomeScreen = () => {
           <Skeleton />
         </div>
       ) : error ? (
-        <ErrorText text={error} />
+        <ErrorText text={error} color="danger" />
       ) : (
         <div>
           <div className="text-3xl font-bold text-primary py-3">

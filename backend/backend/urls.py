@@ -12,6 +12,7 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+    
 """
 from django.contrib import admin
 from django.urls import path,include
@@ -20,7 +21,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/',include('base.urls'))
+    path('api/',include('base.urls')),
+    # path('api/products/',include('base.urls.product_urls')),
+    # path('api/users/',include('base.urls.user_urls')),
+    # path('api/order/',include('base.urls.order_urls'))
+    
 ]
 
 #Settign URL and which folder to look for file
