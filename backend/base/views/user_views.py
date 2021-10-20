@@ -11,8 +11,6 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
-
-
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     # @classmethod
     # def get_token(cls, user):
@@ -25,12 +23,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         for k,v in serializer.items():
             data[k]=v
         return data
-
 # class MyTokenObtainPairView(TokenObtainPairView):
 #     serializer_class = MyTokenObtainPairSerializer        
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-
 
 @api_view(['POST'])
 def registerUser(request):
@@ -44,7 +40,7 @@ def registerUser(request):
         )
         serializer=UserSerializerWithToken(user)
         return Response(serializer.data)  
-    except:
+    except Exception as e:
         messages={'detail':'User with this email already exists'}   
         return Response(messages,status=status.HTTP_400_BAD_REQUEST)
 
@@ -54,6 +50,20 @@ def getUserProfile(request):
     user = request.user
     serializer=UserSerializer(user,many=False)
     return Response(serializer.data)    
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateUserProfile(request):
+    user = request.user
+    serializer=UserSerializerWithToken(user,many=False)
+    data=request.data
+    user.first_name=data['name']
+    user.username=data['email']
+    user.email=data['email']
+    if "password" in data:
+        user.password=make_password(data['password'])
+    user.save()
+    return Response(serializer.data)      
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])

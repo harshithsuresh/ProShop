@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { listProductsDetails } from '../actions/productActions';
 import Skeleton from 'react-loading-skeleton';
 import ErrorText from '../components/ErrorText';
+import Button from '../components/Button';
 
 const ProductScreen = ({ match, history }) => {
   const [qty, setQty] = useState(1);
@@ -32,7 +33,7 @@ const ProductScreen = ({ match, history }) => {
           <div className="bg-onSurface p-3 my-3 text-primary w-24 text-center rounded hover:bg-secondary">
             <Link to="/">Go Back</Link>
           </div>
-          <div className="lg:grid lg:grid-cols-4 lg:gap-5 gap-col-5 flex-wrap p-3">
+          <div className="lg:grid lg:grid-cols-4 lg:gap-5 gap-10 flex-wrap p-3">
             {/* Image  */}
             <div className="shadow-sm col-span-2  flex justify-center item-center">
               <img src={product.image} alt={product.name} />
@@ -59,7 +60,7 @@ const ProductScreen = ({ match, history }) => {
             </div>
             {/* Add to cart  */}
             <div
-              className={`shadow-2xl p-3 ${
+              className={`shadow-2xl p-3 mt-10 ${
                 product.countInStock > 0 ? 'h-56' : 'h-48'
               } text-xl`}
             >
@@ -90,18 +91,11 @@ const ProductScreen = ({ match, history }) => {
                   </div>
                 </div>
               ) : null}
-              <div
-                className={`bg-onSurface p-3 my-3 text-primary w-full text-center rounded ${
-                  product.countInStock > 0 ? 'hover:bg-secondary' : ''
-                } `}
-              >
-                <button
-                  disabled={product.countInStock === 0}
-                  onClick={addCartHandler}
-                >
-                  Add to Cart
-                </button>
-              </div>
+              <Button
+                disabled={product.countInStock === 0}
+                onClick={addCartHandler}
+                text="Add to Cart"
+              ></Button>
             </div>
           </div>
         </div>

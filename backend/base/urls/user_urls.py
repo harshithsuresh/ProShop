@@ -1,9 +1,10 @@
 from django.urls import path
-from base.views.user_views import MyTokenObtainPairView,getUserProfile,registerUser,getUsers
+from base.views import user_views as views
 
 urlpatterns=[   
-    path('login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('profile/', getUserProfile, name='getUserProfile'),
-    path('register/', registerUser, name='registerUsers'),
-    path('', getUsers, name='getUsers'),
+    path('login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('profile/', views.getUserProfile, name='getUserProfile'),
+    path('profile/update/', views.updateUserProfile, name='updateUserProfile'),
+    path('register/', views.registerUser, name='registerUsers'),
+    path('', views.getUsers, name='getUsers'),
 ]

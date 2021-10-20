@@ -6,7 +6,7 @@ import { FaRupeeSign } from 'react-icons/fa';
 const Product = ({ product }) => {
   return (
     <div className="border border-primary rounded m-3 p-3 text-primary  text-center w-auto h-auto hover:shadow-2xl">
-      <div className="flex justify-center content-center ">
+      <div className="flex justify-center item-center ">
         <Link to={`/product/${product._id}`}>
           <img src={product.image} alt={product.name} />
         </Link>

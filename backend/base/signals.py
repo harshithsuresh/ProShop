@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 
 
 def updateUser(sender,instance,**kwargs):
-    print("Triggered updateUser")
     user=instance
     if  user.email !='':
         user.username=user.email

@@ -5,6 +5,7 @@ import ErrorText from '../components/ErrorText';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { FaRupeeSign } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
+import Button from '../components/Button';
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -82,7 +83,7 @@ const CartScreen = ({ match, location, history }) => {
               <div className="bg-onSurface p-3 my-3 text-primary w-24 text-center rounded hover:bg-secondary">
                 <Link to="/">Go Back</Link>
               </div>
-              <ErrorText text="Cart is Empty" color="onSurface" />
+              <ErrorText text="Cart is Empty" color="danger" />
             </div>
           ) : (
             <div>
@@ -104,18 +105,11 @@ const CartScreen = ({ match, location, history }) => {
                 .reduce((acc, item) => acc + item.qty * item.price, 0)
                 .toFixed(2)}
             </div>
-            <div
-              className={`bg-onSurface p-3 my-3 text-primary w-full text-center rounded ${
-                cartItems.length > 0 ? 'hover:bg-secondary' : ''
-              } `}
-            >
-              <button
-                disabled={cartItems.length === 0}
-                onClick={checkoutHandler}
-              >
-                Proceed to Checkout
-              </button>
-            </div>
+            <Button
+              disabled={cartItems.length === 0}
+              onClick={checkoutHandler}
+              text="Proceed to Checkout"
+            ></Button>
           </div>
         </div>
       </div>

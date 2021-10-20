@@ -18,7 +18,7 @@ const HomeScreen = () => {
     <div>
       {loading ? (
         <div>
-          <Skeleton />
+          <Skeleton count={10} />
         </div>
       ) : error ? (
         <ErrorText text={error} color="danger" />
